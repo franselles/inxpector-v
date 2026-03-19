@@ -1,4 +1,11 @@
 <script setup lang="ts">
+const { user, clear: clearSession } = useUserSession();
+
+async function logout() {
+    await clearSession();
+    await navigateTo("/");
+}
+
 const { data: collectors } = await useFetch("/api/collectors");
 </script>
 
@@ -35,5 +42,7 @@ const { data: collectors } = await useFetch("/api/collectors");
                 </button>
             </li>
         </ul>
+        <h1>Welcome {{ user }}</h1>
+        <button @click="logout">Logout</button>
     </div>
 </template>
