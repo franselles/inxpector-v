@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model Cities {
+  id      Int       @id @default(autoincrement())
+  name    String?   @db.VarChar(50)
+  active  Boolean   @default(true)
+  sectors Sectors[]
+}
+
+model Sectors {
+  id      Int       @id @default(autoincrement())
+  name    String?   @db.VarChar(50)
+  active  Boolean   @default(true)
+  city_id Int
+  cities  Cities    @relation(fields: [city_id], references: [id])
+  informs Informs[]
+}
+
+model Collectors {
+  id      Int       @id @default(autoincrement())
+  name    String?   @db.VarChar(50)
+  active  Boolean   @default(true)
+  informs Informs[]
+}
+
+model Inspectors {
+  id      Int       @id @default(autoincrement())
+  name    String    @db.VarChar(50)
+  user    String    @db.VarChar(50)
+  pass    String    @db.VarChar(50)
+  active  Boolean   @default(true)
+  informs Informs[]
+}
+
+model Informs {
+  id               Int       @id @default(autoincrement())
+  date_inform      DateTime? @db.Date
+  time_in          DateTime? @db.Time(0)
+  time_out         DateTime? @db.Time(0)
+  lat              Decimal   @db.Decimal(11, 8)
+  lng              Decimal   @db.Decimal(11, 8)
+  comments         String?   @db.Text
+  failed_beds      Int?
+  failed_umbrellas Int?
+  failed_boats     Int?
+  failed_padel     Int?
+  sector_id        Int?
+  inspector_id     Int?
+  collector_id     Int?
+
+  inspectors Inspectors? @relation(fields: [inspector_id], references: [id])
+  collectors Collectors? @relation(fields: [collector_id], references: [id])
+  sectors    Sectors?    @relation(fields: [sector_id], references: [id])
+}

@@ -1,0 +1,6 @@
+<template>
+    <label class="input">
+        <input type="text" placeholder="domain name" />
+        <span class="label">.com</span>
+    </label>
+</template>

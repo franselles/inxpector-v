@@ -1,77 +1,26 @@
-# Nuxt Minimal Starter
+# Control Inspección Alquiler Hamacas y Sombrillas inxpector-v
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Sistema integral para la gestión y supervisión del inventario de playas, optimizado para inspecciones en tiempo real y análisis de datos.
 
-## Setup
+## 🚀 Tecnologías
 
-Make sure to install dependencies:
+Este proyecto utiliza un stack moderno basado en **TypeScript**:
 
-```bash
-# npm
-npm install
+*   **Framework:** [Nuxt 4](https://nuxt.com) (Fullstack SSR/SPA)
+*   **ORM:** [Prisma](https://www.prisma.io) (Gestión de base de datos)
+*   **Estilos:** [Tailwind CSS](https://tailwindcss.com) + [daisyUI](https://daisyui.com) (Componentes UI)
+*   **Arquitectura:** Monorepo (Gestión simplificada de múltiples aplicaciones)
 
-# pnpm
-pnpm install
+## 🏗️ Estructura del Proyecto
 
-# yarn
-yarn install
+La solución se divide en dos áreas principales dentro del monorepo:
 
-# bun
-bun install
-```
+### 📱 1. App de Inspección (Mobile-First)
+Diseñada específicamente para los operarios a pie de playa.
+- **Enfoque:** Interfaz minimalista, rápida y optimizada para dispositivos móviles.
+- **Funciones:** Registro de estado de estado de venta de hamacasy sombrillas, reporte de situación e incidencias.
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
-# inxpector-v
-# inxpector-v
+### 📊 2. Dashboard de Gestión (Admin)
+Panel de control centralizado para la toma de decisiones.
+- **Enfoque:** Visualización de datos, gráficas de ocupación y gestión de inventario.
+- **Funciones:** Generación de informes, gestión de usuarios, exportación de resultados y analíticas de rendimiento por zona.
