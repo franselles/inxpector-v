@@ -21,6 +21,7 @@ async function login() {
         await refreshSession();
         if (result.role == "admin") {
             await navigateTo("/a/collectors");
+            console.log(result);
         } else {
             await navigateTo("/");
         }
