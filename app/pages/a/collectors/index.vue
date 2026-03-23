@@ -1,5 +1,14 @@
 <script setup lang="ts">
+definePageMeta({
+    middleware: "auth",
+    roles: 1,
+});
+
 const { user, clear: clearSession } = useUserSession();
+
+async function checkCollector(id: number) {
+    await navigateTo(`/a/check/${id}`);
+}
 
 async function logout() {
     await clearSession();
@@ -23,7 +32,10 @@ const { data: collectors } = await useFetch("/api/collectors");
                         {{ collector.id }}
                     </div>
                 </div>
-                <button class="btn btn-square btn-ghost">
+                <button
+                    @click="checkCollector(collector.id)"
+                    class="btn btn-square btn-ghost"
+                >
                     <svg
                         class="size-[1.2em]"
                         xmlns="http://www.w3.org/2000/svg"

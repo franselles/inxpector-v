@@ -40,7 +40,8 @@ model Inspectors {
   id      Int       @id @default(autoincrement())
   name    String    @db.VarChar(50)
   user    String    @db.VarChar(50)
-  pass    String    @db.VarChar(50)
+  pass    String    @db.VarChar(255)
+  rol     Int       @db.TinyInt
   active  Boolean   @default(true)
   informs Informs[]
 }

@@ -1,23 +1,38 @@
 import { z } from "zod";
+import prisma from "../lib/prisma";
 
 const bodySchema = z.object({
-  email: z.email(),
+  user: z.string(),
   password: z.string().min(4),
 });
 
 export default eventHandler(async (event) => {
-  const { email, password } = await readValidatedBody(event, bodySchema.parse);
+  const { user, password } = await readValidatedBody(event, bodySchema.parse);
 
-  if (email === "a@a.com" && password === "1234") {
-    // set the user session in the cookie
-    // this server util is auto-imported by the auth-utils module
-    await setUserSession(event, {
-      user: {
-        name: "John Doe",
-        role: "admin",
-      },
-    });
-    return { role: "admin" };
+  const userRegistered = await prisma.inspectors.findFirst({
+    where: {
+      user: user,
+    },
+  });
+
+  if (userRegistered) {
+    /*
+    const hashedPassword = await hashPassword(password);
+
+    if (await verifyPassword(hashedPassword, userRegistered.pass)) {
+      // Password is valid
+    }
+    */
+    if (userRegistered.pass == password) {
+      await setUserSession(event, {
+        user: {
+          id: userRegistered.id,
+          name: userRegistered.name,
+          roles: userRegistered.rol,
+        },
+      });
+      return { roles: userRegistered.rol };
+    }
   }
   throw createError({
     status: 401,

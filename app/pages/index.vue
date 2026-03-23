@@ -1,12 +1,12 @@
 <script setup lang="ts">
 const { loggedIn, user, fetch: refreshSession } = useUserSession();
 const credentials = reactive({
-    email: "",
+    user: "",
     password: "",
 });
 
 function clearCredentials() {
-    credentials.email = "";
+    credentials.user = "";
     credentials.password = "";
 }
 
@@ -19,11 +19,10 @@ async function login() {
 
         // Refresh the session on client-side and redirect to the home page
         await refreshSession();
-        if (result.role == "admin") {
+        if (result.roles == 1) {
             await navigateTo("/a/collectors");
-            console.log(result);
-        } else {
-            await navigateTo("/");
+        } else if (result.roles == 2) {
+            await navigateTo("/d/dash");
         }
     } catch {
         clearCredentials();
@@ -33,7 +32,7 @@ async function login() {
 
 <template>
     <form @submit.prevent="login">
-        <input v-model="credentials.email" type="email" placeholder="Email" />
+        <input v-model="credentials.user" type="text" placeholder="Usuario" />
         <input
             v-model="credentials.password"
             type="password"
