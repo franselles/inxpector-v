@@ -94,9 +94,12 @@ async function login() {
                 </form>
 
                 <div class="text-center mt-4">
+                    <span class="text-xs opacity-40">v0.0.8 en desarrollo</span>
+                </div>
+                <div class="text-center mt-4">
                     <span class="text-xs opacity-40"
-                        >v0.0.7 en desarrollo - Sistema control de
-                        Inspecciones</span
+                        >Sistema control de Inspecciones R.A. BENIDORM
+                        S.L.</span
                     >
                 </div>
             </div>
