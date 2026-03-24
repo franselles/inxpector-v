@@ -134,6 +134,13 @@ const handleCancel = () => {
         confirm("¿Estás seguro de que quieres cancelar? Perderás los cambios.")
     ) {
         Object.assign(formData, {
+            collector_id: null,
+            inspector_id: null,
+            lat: 0,
+            lng: 0,
+            time_in: null,
+            time_out: null,
+            date_inform: null,
             city_id: 0,
             sector_id: null,
             comments: "",
@@ -143,6 +150,7 @@ const handleCancel = () => {
             failed_padel: 0,
         });
     }
+    navigateTo("/a/collectors");
 };
 </script>
 
