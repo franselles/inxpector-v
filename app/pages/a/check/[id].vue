@@ -63,6 +63,15 @@ watch(
     },
 );
 
+const totalFailed = computed(() => {
+    return (
+        formData.failed_beds +
+        formData.failed_umbrellas +
+        formData.failed_boats +
+        formData.failed_padel
+    );
+});
+
 // 6. Función de Envío
 async function handleSubmit() {
     if (!formData.sector_id) {
@@ -138,32 +147,90 @@ const handleCancel = () => {
 </script>
 
 <template>
-    <div class="max-w-2xl mx-auto p-4">
-        <header class="mb-6">
-            <h1 class="text-2xl font-bold">
-                Inspección: Cobrador {{ id }} - {{ collector?.name }}
-            </h1>
-            <div class="flex items-center gap-2 text-sm opacity-70">
-                <span
-                    >Inspector: <strong>{{ user?.name }}</strong></span
+    <div class="max-w-2xl mx-auto p-4 pb-12 space-y-6">
+        <header class="flex flex-col gap-2 border-b border-base-300 pb-4">
+            <div class="flex items-center gap-2">
+                <button
+                    @click="$router.back()"
+                    class="btn btn-sm btn-ghost btn-circle"
                 >
-                <span class="badge badge-sm badge-outline uppercase">{{
-                    user?.roles
-                }}</span>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="size-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M15 19l-7-7 7-7"
+                        />
+                    </svg>
+                </button>
+                <h1 class="text-xl font-black tracking-tight leading-tight">
+                    Inspección cobrador
+                </h1>
+            </div>
+
+            <div
+                class="flex items-center justify-between bg-base-200 px-3 py-2 rounded-lg"
+            >
+                <div class="flex flex-col">
+                    <span class="text-[10px] uppercase opacity-50 font-bold"
+                        >Cobrador</span
+                    >
+                    <span class="text-sm font-bold">{{
+                        collector?.name || "Cargando..."
+                    }}</span>
+                </div>
+                <div class="flex flex-col items-end">
+                    <span class="text-[10px] uppercase opacity-50 font-bold"
+                        >Inspector</span
+                    >
+                    <span class="badge badge-sm badge-neutral">{{
+                        user?.name
+                    }}</span>
+                </div>
             </div>
         </header>
 
         <form @submit.prevent="handleSubmit" class="space-y-6">
-            <fieldset
-                class="fieldset bg-base-200 border-base-300 rounded-box border p-4"
-            >
-                <legend class="fieldset-legend font-bold">Ubicación</legend>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="form-control">
-                        <label class="label">Ciudad</label>
+            <section class="space-y-4">
+                <div class="flex items-center gap-2 px-1">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="size-4 text-primary"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                        />
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                    </svg>
+                    <h2
+                        class="text-sm font-bold uppercase opacity-60 tracking-wider"
+                    >
+                        Ubicación
+                    </h2>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="form-control w-full">
                         <select
                             v-model.number="formData.city_id"
-                            class="select select-bordered w-full"
+                            class="select select-bordered w-full font-bold"
                         >
                             <option :value="0" disabled>
                                 Seleccione ciudad
@@ -178,11 +245,10 @@ const handleCancel = () => {
                         </select>
                     </div>
 
-                    <div class="form-control">
-                        <label class="label">Sector</label>
+                    <div class="form-control w-full">
                         <select
                             v-model.number="formData.sector_id"
-                            class="select select-bordered w-full"
+                            class="select select-bordered w-full font-bold"
                             :disabled="!formData.city_id"
                         >
                             <option :value="null">
@@ -202,86 +268,129 @@ const handleCancel = () => {
                         </select>
                     </div>
                 </div>
-            </fieldset>
+            </section>
 
-            <fieldset
-                class="fieldset bg-base-200 border-base-300 rounded-box border p-4"
-            >
-                <legend class="fieldset-legend font-bold">
-                    Control de elementos no vendidos
-                </legend>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="form-control">
-                        <label class="label text-xs">Hamacas</label>
-                        <input
-                            v-model.number="formData.failed_beds"
-                            type="number"
-                            min="0"
-                            class="input input-bordered w-full"
+            <section class="space-y-4">
+                <div class="flex items-center gap-2 px-1">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="size-4 text-primary"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
                         />
-                    </div>
-                    <div class="form-control">
-                        <label class="label text-xs">Sombrillas</label>
-                        <input
-                            v-model.number="formData.failed_umbrellas"
-                            type="number"
-                            min="0"
-                            class="input input-bordered w-full"
-                        />
-                    </div>
-                    <div class="form-control">
-                        <label class="label text-xs">Patines</label>
-                        <input
-                            v-model.number="formData.failed_boats"
-                            type="number"
-                            min="0"
-                            class="input input-bordered w-full"
-                        />
-                    </div>
-                    <div class="form-control">
-                        <label class="label text-xs">PadelSurf</label>
-                        <input
-                            v-model.number="formData.failed_padel"
-                            type="number"
-                            min="0"
-                            class="input input-bordered w-full"
-                        />
+                    </svg>
+                    <h2
+                        class="text-sm font-bold uppercase opacity-60 tracking-wider"
+                    >
+                        Control de No Vendidos
+                    </h2>
+                </div>
+
+                <div class="grid grid-cols-1 gap-3">
+                    <div
+                        v-for="(label, key) in {
+                            failed_beds: 'Hamacas',
+                            failed_umbrellas: 'Sombrillas',
+                            failed_boats: 'Patines',
+                            failed_padel: 'PadelSurf',
+                        }"
+                        :key="key"
+                        class="flex items-center justify-between bg-base-100 border border-base-300 p-3 rounded-xl shadow-sm"
+                    >
+                        <span class="font-bold pl-2 text-base-content/80">{{
+                            label
+                        }}</span>
+                        <div class="flex items-center gap-1">
+                            <button
+                                type="button"
+                                @click="
+                                    formData[key] > 0 ? formData[key]-- : null
+                                "
+                                class="btn btn-square btn-sm btn-outline border-base-300"
+                            >
+                                -
+                            </button>
+                            <input
+                                v-model.number="formData[key]"
+                                type="number"
+                                class="input input-sm w-16 text-center font-black text-lg p-0 focus:outline-none bg-transparent"
+                            />
+                            <button
+                                type="button"
+                                @click="formData[key]++"
+                                class="btn btn-square btn-sm btn-primary"
+                            >
+                                +
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </fieldset>
+            </section>
 
-            <div class="form-control">
-                <label class="label font-bold">Comentarios e Incidencias</label>
+            <section class="form-control space-y-2">
+                <label class="label px-1">
+                    <span
+                        class="label-text font-bold uppercase opacity-60 text-xs"
+                        >Comentarios e Incidencias</span
+                    >
+                </label>
                 <textarea
                     v-model="formData.comments"
-                    class="textarea textarea-bordered h-28"
-                    placeholder="Notas de la inspección..."
+                    class="textarea textarea-bordered h-24 text-base"
+                    placeholder="¿Alguna novedad relevante?"
                 ></textarea>
+            </section>
+
+            <div
+                v-if="totalFailed > 0"
+                class="alert alert-warning shadow-sm mb-4"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="stroke-current shrink-0 h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                    />
+                </svg>
+                <span
+                    >Se han registrado
+                    <strong>{{ totalFailed }}</strong> elementos no
+                    vendidos.</span
+                >
             </div>
 
-            <div class="flex flex-col sm:flex-row gap-3 pt-4">
+            <div class="flex flex-col gap-3 pt-4">
                 <button
                     type="submit"
-                    class="btn btn-primary flex-1"
+                    class="btn btn-primary btn-lg shadow-lg"
                     :disabled="isLoading"
                 >
                     <span
                         v-if="isLoading"
                         class="loading loading-spinner"
                     ></span>
-                    {{
-                        isLoading
-                            ? "Guardando datos..."
-                            : "Finalizar Inspección"
-                    }}
+                    {{ isLoading ? "Guardando..." : "Finalizar y Guardar" }}
                 </button>
                 <button
                     type="button"
-                    class="btn btn-ghost"
                     @click="handleCancel"
+                    class="btn btn-ghost btn-sm opacity-50"
                     :disabled="isLoading"
                 >
-                    Cancelar
+                    Descartar Cambios
                 </button>
             </div>
         </form>

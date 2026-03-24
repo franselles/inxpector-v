@@ -11,7 +11,7 @@ export default eventHandler(async (event) => {
 
   const userRegistered = await prisma.inspectors.findFirst({
     where: {
-      user: user,
+      user: user.toUpperCase(),
     },
   });
 
