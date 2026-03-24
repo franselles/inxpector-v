@@ -31,13 +31,25 @@ async function login() {
 </script>
 
 <template>
-    <form @submit.prevent="login">
-        <input v-model="credentials.user" type="text" placeholder="Usuario" />
-        <input
-            v-model="credentials.password"
-            type="password"
-            placeholder="Password"
-        />
-        <button type="submit">Login</button>
-    </form>
+    <div class="max-w-2xl mx-auto p-4">
+        <form @submit.prevent="login">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <input
+                    v-model="credentials.user"
+                    type="text"
+                    placeholder="Usuario"
+                    class="input input-bordered w-full"
+                />
+                <input
+                    v-model="credentials.password"
+                    type="password"
+                    placeholder="Password"
+                    class="input input-bordered w-full"
+                />
+                <button type="submit" class="btn btn-primary flex-1">
+                    Login
+                </button>
+            </div>
+        </form>
+    </div>
 </template>

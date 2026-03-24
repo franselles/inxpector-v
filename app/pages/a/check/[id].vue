@@ -21,9 +21,21 @@ interface Sector {
     city_id: number;
 }
 
+interface Collectors {
+    id: number;
+    name: string;
+    active: boolean;
+}
+
+interface GeoResult {
+    coords: GeolocationCoordinates | null;
+    error: string | null;
+}
+
 // 3. Carga de Datos (SSR por defecto en Nuxt 4)
 const { data: cities } = await useFetch<City[]>("/api/cities");
 const { data: allSectors } = await useFetch<Sector[]>("/api/sectors");
+const { data: collector } = await useFetch<Collectors>(`/api/collector/${id}`);
 
 // 4. Estado reactivo del formulario
 const formData = reactive({
@@ -66,7 +78,8 @@ async function handleSubmit() {
             (resolve, reject) => {
                 navigator.geolocation.getCurrentPosition(resolve, reject, {
                     enableHighAccuracy: true,
-                    timeout: 5000,
+                    timeout: 10000,
+                    maximumAge: 60000,
                 });
             },
         ).catch((err) => {
@@ -97,9 +110,11 @@ async function handleSubmit() {
 
         alert("¡Inspección guardada con éxito!");
         // Aquí podrías usar navigateTo('/') si quieres redirigir
+        navigateTo("/a/collectors");
     } catch (error) {
         console.error("Error al guardar:", error);
         alert("Error crítico al procesar el formulario.");
+        navigateTo("/a/collectors");
     } finally {
         isLoading.value = false;
     }
@@ -125,7 +140,9 @@ const handleCancel = () => {
 <template>
     <div class="max-w-2xl mx-auto p-4">
         <header class="mb-6">
-            <h1 class="text-2xl font-bold">Inspección: Cobrador {{ id }}</h1>
+            <h1 class="text-2xl font-bold">
+                Inspección: Cobrador {{ id }} - {{ collector?.name }}
+            </h1>
             <div class="flex items-center gap-2 text-sm opacity-70">
                 <span
                     >Inspector: <strong>{{ user?.name }}</strong></span
@@ -191,11 +208,11 @@ const handleCancel = () => {
                 class="fieldset bg-base-200 border-base-300 rounded-box border p-4"
             >
                 <legend class="fieldset-legend font-bold">
-                    Inventario Defectuoso
+                    Control de elementos no vendidos
                 </legend>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div class="form-control">
-                        <label class="label text-xs">Camas</label>
+                        <label class="label text-xs">Hamacas</label>
                         <input
                             v-model.number="formData.failed_beds"
                             type="number"
@@ -234,7 +251,7 @@ const handleCancel = () => {
             </fieldset>
 
             <div class="form-control">
-                <label class="label font-bold">Comentarios</label>
+                <label class="label font-bold">Comentarios e Incidencias</label>
                 <textarea
                     v-model="formData.comments"
                     class="textarea textarea-bordered h-28"

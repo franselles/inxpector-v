@@ -54,7 +54,43 @@ const { data: collectors } = await useFetch("/api/collectors");
                 </button>
             </li>
         </ul>
-        <h1>Welcome {{ user }}</h1>
-        <button @click="logout">Logout</button>
+        <div class="max-w-2xl mx-auto p-4 space-y-6">
+            <div
+                class="flex items-center justify-between bg-base-200 p-6 rounded-box shadow-sm border border-base-300"
+            >
+                <div class="flex items-center gap-4">
+                    <div class="avatar placeholder">
+                        <div
+                            class="bg-primary text-primary-content rounded-full w-12"
+                        >
+                            <span class="text-xl">{{
+                                user?.name?.charAt(0)
+                            }}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h1
+                            class="text-sm opacity-60 uppercase font-bold tracking-tighter"
+                        >
+                            Panel de Inspector
+                        </h1>
+                        <p class="text-xl font-extrabold italic">
+                            Hola, {{ user?.name }}
+                        </p>
+                    </div>
+                </div>
+
+                <button
+                    class="btn btn-outline btn-error btn-sm"
+                    @click="logout"
+                >
+                    Cerrar Sesión
+                </button>
+            </div>
+
+            <ul
+                class="list bg-base-100 rounded-box shadow-md border border-base-300"
+            ></ul>
+        </div>
     </div>
 </template>
