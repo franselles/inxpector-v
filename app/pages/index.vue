@@ -95,7 +95,8 @@ async function login() {
 
                 <div class="text-center mt-4">
                     <span class="text-xs opacity-40"
-                        >v0.0.6 - Sistema de Inspecciones</span
+                        >v0.0.7 en desarrollo - Sistema control de
+                        Inspecciones</span
                     >
                 </div>
             </div>

@@ -1,6 +1,6 @@
 {
   "name": "inxpector-v",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Control inspeccion alquiler hamacas y sombrillas",
   "author": "franselles",
   "type": "module",
@@ -22,7 +22,7 @@
     "nuxt-auth-utils": "^0.5.29",
     "tailwindcss": "^4.2.2",
     "vue": "^3.5.30",
-    "vue-router": "^5.0.3",
+    "vue-router": "^5.0.4",
     "zod": "^4.3.6"
   },
   "devDependencies": {
