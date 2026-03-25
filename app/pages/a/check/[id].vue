@@ -52,7 +52,6 @@ const coords = ref<GeolocationCoordinates | null>(null);
 let watchId: number | null = null;
 
 onMounted(() => {
-    // Iniciamos el rastreo. NO usamos await aquí.
     watchId = navigator.geolocation.watchPosition(
         (position) => {
             // Cada vez que el GPS mejore la precisión, esto se actualiza solo
@@ -63,14 +62,13 @@ onMounted(() => {
             console.warn("Error de ubicación:", err);
         },
         {
-            enableHighAccuracy: true,
+            enableHighAccuracy: false,
             timeout: 10000,
             maximumAge: 0,
         },
     );
 });
 
-// IMPORTANTÍSIMO: Apagar el GPS al salir
 onUnmounted(() => {
     if (watchId !== null) {
         navigator.geolocation.clearWatch(watchId);
