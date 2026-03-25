@@ -25,7 +25,7 @@ async function handleCreateCollector() {
         });
 
         alert("Cobrador registrado con éxito.");
-        router.push("/d"); // Ajusta a tu ruta de listado
+        navigateTo("/d");
     } catch (error) {
         console.error("Error:", error);
         alert("Hubo un error al crear el cobrador.");

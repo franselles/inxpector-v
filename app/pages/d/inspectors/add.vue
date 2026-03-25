@@ -27,14 +27,15 @@ async function handleCreateInspector() {
             method: "POST",
             body: {
                 name: formData.name.toUpperCase(),
-                user: formData.user.toLocaleUpperCase(),
+                user: formData.user.toUpperCase(),
                 pass: formData.pass,
                 rol: formData.rol,
             },
         });
 
         alert("Inspector creado correctamente.");
-        router.push("/d"); // Redirigir a la lista
+
+        navigateTo("/d");
     } catch (error) {
         console.error("Error al crear:", error);
         alert(
