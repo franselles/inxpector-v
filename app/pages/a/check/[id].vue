@@ -48,20 +48,33 @@ const formData = reactive({
     failed_padel: 0,
 });
 
-let position: GeolocationPosition | null = null;
+const coords = ref<GeolocationCoordinates | null>(null);
+let watchId: number | null = null;
 
-onMounted(async () => {
-    // A. Obtener Geolocalización
-    position = await new Promise<GeolocationPosition>((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject, {
+onMounted(() => {
+    // Iniciamos el rastreo. NO usamos await aquí.
+    watchId = navigator.geolocation.watchPosition(
+        (position) => {
+            // Cada vez que el GPS mejore la precisión, esto se actualiza solo
+            coords.value = position.coords;
+            console.log("Nueva precisión:", position.coords.accuracy, "metros");
+        },
+        (err) => {
+            console.warn("Error de ubicación:", err);
+        },
+        {
             enableHighAccuracy: true,
             timeout: 10000,
-            maximumAge: 60000,
-        });
-    }).catch((err) => {
-        console.warn("Geo bloqueada o error:", err);
-        return null;
-    });
+            maximumAge: 0,
+        },
+    );
+});
+
+// IMPORTANTÍSIMO: Apagar el GPS al salir
+onUnmounted(() => {
+    if (watchId !== null) {
+        navigator.geolocation.clearWatch(watchId);
+    }
 });
 
 // 5. Lógica de Filtrado Dinámico
@@ -124,8 +137,8 @@ async function handleSubmit() {
             date_inform: now,
             time_in: now,
             time_out: now,
-            lat: position?.coords.latitude || 0,
-            lng: position?.coords.longitude || 0,
+            lat: coords.value?.latitude || 0,
+            lng: coords.value?.longitude || 0,
         };
 
         // C. Guardar en Base de Datos
