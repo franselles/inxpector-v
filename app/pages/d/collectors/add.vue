@@ -16,7 +16,7 @@ async function handleCreateCollector() {
     isLoading.value = true;
 
     try {
-        await $fetch("/api/collectors", {
+        await $fetch("/api/collector", {
             method: "POST",
             body: {
                 name: formData.name.toUpperCase(),
@@ -39,7 +39,7 @@ async function handleCreateCollector() {
     <div class="max-w-md mx-auto p-4 space-y-6">
         <header class="flex items-center gap-3 border-b border-base-300 pb-4">
             <button
-                @click="router.back()"
+                @click="$router.back()"
                 class="btn btn-sm btn-ghost btn-circle"
             >
                 <svg
@@ -120,7 +120,7 @@ async function handleCreateCollector() {
                         </button>
                         <button
                             type="button"
-                            @click="router.back()"
+                            @click="$router.back()"
                             class="btn btn-ghost btn-block btn-sm opacity-60"
                         >
                             Cancelar
