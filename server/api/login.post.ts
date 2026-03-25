@@ -16,14 +16,10 @@ export default eventHandler(async (event) => {
   });
 
   if (userRegistered) {
-    /*
     const hashedPassword = await hashPassword(password);
 
-    if (await verifyPassword(hashedPassword, userRegistered.pass)) {
+    if (await verifyPassword(hashedPassword, password)) {
       // Password is valid
-    }
-    */
-    if (userRegistered.pass == password) {
       await setUserSession(event, {
         user: {
           id: userRegistered.id,

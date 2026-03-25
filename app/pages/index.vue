@@ -24,7 +24,7 @@ async function login() {
         if (result.roles == 1) {
             await navigateTo("/a/collectors");
         } else if (result.roles == 2) {
-            await navigateTo("/d/dash");
+            await navigateTo("/d");
         }
     } catch {
         clearCredentials();
@@ -94,7 +94,7 @@ async function login() {
                 </form>
 
                 <div class="text-center mt-4">
-                    <span class="text-xs opacity-40">v0.0.8 en desarrollo</span>
+                    <span class="text-xs opacity-40">v0.0.9 en desarrollo</span>
                 </div>
                 <div class="text-center mt-4">
                     <span class="text-xs opacity-40"

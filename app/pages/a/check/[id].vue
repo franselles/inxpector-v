@@ -48,6 +48,22 @@ const formData = reactive({
     failed_padel: 0,
 });
 
+let position: GeolocationPosition | null = null;
+
+onMounted(async () => {
+    // A. Obtener Geolocalización
+    position = await new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 60000,
+        });
+    }).catch((err) => {
+        console.warn("Geo bloqueada o error:", err);
+        return null;
+    });
+});
+
 // 5. Lógica de Filtrado Dinámico
 // Se ejecuta automáticamente cada vez que formData.city_id cambia
 const filteredSectors = computed(() => {
@@ -82,6 +98,7 @@ async function handleSubmit() {
     isLoading.value = true;
 
     try {
+        /*
         // A. Obtener Geolocalización
         const position = await new Promise<GeolocationPosition>(
             (resolve, reject) => {
@@ -95,7 +112,7 @@ async function handleSubmit() {
             console.warn("Geo bloqueada o error:", err);
             return null;
         });
-
+        */
         const now = new Date();
 
         // B. Construir objeto final (Payload)
