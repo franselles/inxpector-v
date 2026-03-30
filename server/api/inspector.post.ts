@@ -5,13 +5,20 @@ export default eventHandler(async (event) => {
 
   const hashedPassword = await hashPassword(pass);
 
-  const userSign = await prisma.inspectors.create({
-    data: {
-      name,
-      user,
-      pass: hashedPassword,
-      rol,
-    },
-  });
-  return userSign;
+  try {
+    const userSign = await prisma.inspectors.create({
+      data: {
+        name,
+        user,
+        pass: hashedPassword,
+        rol,
+      },
+    });
+    return userSign;
+  } catch (error) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: "Error al crear el inspector",
+    });
+  }
 });

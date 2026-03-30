@@ -10,7 +10,7 @@ async function logout() {
 <template>
     <div class="min-h-screen bg-base-100">
         <nav
-            class="navbar bg-base-200 border-b border-base-300 px-4 flex-col sm:flex-row gap-4"
+            class="navbar bg-base-200 border-b border-base-300 px-4 flex-col lg:flex-row gap-4"
         >
             <div class="flex-1">
                 <NuxtLink
@@ -21,17 +21,54 @@ async function logout() {
                 </NuxtLink>
             </div>
 
-            <div class="flex-none">
+            <div class="flex-none flex items-center gap-2">
                 <ul
                     class="menu menu-horizontal bg-base-100 rounded-lg border border-base-300 p-1 gap-1"
                 >
+                    <li
+                        class="border-r border-base-300 pr-1 mr-1 hidden sm:block"
+                    >
+                        <span
+                            class="text-[10px] uppercase font-black opacity-40 select-none"
+                            >Inspectores</span
+                        >
+                    </li>
+                    <li>
+                        <NuxtLink
+                            to="/d/inspectors/list"
+                            class="rounded-md transition-colors"
+                            active-class="bg-primary text-primary-content font-bold shadow-sm"
+                        >
+                            Lista
+                        </NuxtLink>
+                    </li>
                     <li>
                         <NuxtLink
                             to="/d/inspectors/add"
                             class="rounded-md transition-colors"
                             active-class="bg-primary text-primary-content font-bold shadow-sm"
                         >
-                            + Inspector
+                            + Nuevo
+                        </NuxtLink>
+                    </li>
+
+                    <div class="divider divider-horizontal mx-0"></div>
+
+                    <li
+                        class="border-r border-base-300 pr-1 mr-1 hidden sm:block"
+                    >
+                        <span
+                            class="text-[10px] uppercase font-black opacity-40 select-none"
+                            >Cobradores</span
+                        >
+                    </li>
+                    <li>
+                        <NuxtLink
+                            to="/d/collectors/list"
+                            class="rounded-md transition-colors"
+                            active-class="bg-primary text-primary-content font-bold shadow-sm"
+                        >
+                            Lista
                         </NuxtLink>
                     </li>
                     <li>
@@ -40,12 +77,13 @@ async function logout() {
                             class="rounded-md transition-colors"
                             active-class="bg-primary text-primary-content font-bold shadow-sm"
                         >
-                            + Cobrador
+                            + Nuevo
                         </NuxtLink>
                     </li>
                 </ul>
+
                 <button
-                    class="btn btn-circle btn-ghost btn-sm text-error"
+                    class="btn btn-circle btn-ghost btn-sm text-error ml-2"
                     @click="logout"
                     title="Cerrar Sesión"
                 >

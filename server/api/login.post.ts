@@ -9,29 +9,32 @@ const bodySchema = z.object({
 export default eventHandler(async (event) => {
   const { user, password } = await readValidatedBody(event, bodySchema.parse);
 
-  const userRegistered = await prisma.inspectors.findFirst({
-    where: {
-      user: user.toUpperCase(),
-    },
-  });
+  try {
+    const userRegistered = await prisma.inspectors.findFirst({
+      where: {
+        user: user.toUpperCase(),
+      },
+    });
 
-  if (userRegistered) {
-    const hashedPassword = await hashPassword(password);
+    if (userRegistered) {
+      const hashedPassword = await hashPassword(password);
 
-    if (await verifyPassword(hashedPassword, password)) {
-      // Password is valid
-      await setUserSession(event, {
-        user: {
-          id: userRegistered.id,
-          name: userRegistered.name,
-          roles: userRegistered.rol,
-        },
-      });
-      return { roles: userRegistered.rol };
+      if (await verifyPassword(hashedPassword, password)) {
+        // Password is valid
+        await setUserSession(event, {
+          user: {
+            id: userRegistered.id,
+            name: userRegistered.name,
+            roles: userRegistered.rol,
+          },
+        });
+        return { roles: userRegistered.rol };
+      }
     }
+  } catch (error) {
+    throw createError({
+      status: 401,
+      message: "Bad credentials",
+    });
   }
-  throw createError({
-    status: 401,
-    message: "Bad credentials",
-  });
 });

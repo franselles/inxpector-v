@@ -1,8 +1,15 @@
 import prisma from "../lib/prisma";
 
 export default eventHandler(async (event) => {
-  const cities = await prisma.sectors.findMany({
-    where: {},
-  });
-  return cities;
+  try {
+    const cities = await prisma.sectors.findMany({
+      where: {},
+    });
+    return cities;
+  } catch (error) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: "Error al obtener los sectores",
+    });
+  }
 });

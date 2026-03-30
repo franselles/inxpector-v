@@ -4,14 +4,14 @@ export default eventHandler(async (event) => {
   const id = Number(getRouterParam(event, "id"));
 
   try {
-    const collector = await prisma.collectors.findUnique({
+    const inspector = await prisma.inspectors.findUnique({
       where: { id },
     });
-    return collector;
+    return inspector;
   } catch (error) {
     throw createError({
       statusCode: 404,
-      statusMessage: "Cobrador no encontrado",
+      statusMessage: "Inspector no encontrado",
     });
   }
 });
