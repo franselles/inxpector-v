@@ -13,7 +13,6 @@ const updateCollector = reactive({
     active: false,
 } as Collector);
 
-// 1. Cargamos los datos actuales del cobrador
 const { data: collector, pending } = await useFetch<Collector>(
     `/api/collector/${id}`,
 );
@@ -23,7 +22,6 @@ updateCollector.active = collector.value?.active ?? updateCollector.active;
 
 const isLoading = ref(false);
 
-// 2. Función para guardar cambios
 async function handleUpdate() {
     isLoading.value = true;
     try {

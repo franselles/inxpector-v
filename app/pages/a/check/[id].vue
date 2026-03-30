@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// 1. Hooks de Nuxt y sesión
 const { user } = useUserSession();
 const route = useRoute();
 const id = route.params.id; // ID del cobrador desde la URL
@@ -8,7 +7,6 @@ const id = route.params.id; // ID del cobrador desde la URL
 const isLoading = ref(false);
 const formRef = ref<HTMLFormElement | null>(null);
 
-// 2. Interfaces de Datos
 interface City {
     id: number;
     name: string;
@@ -32,12 +30,10 @@ interface GeoResult {
     error: string | null;
 }
 
-// 3. Carga de Datos (SSR por defecto en Nuxt 4)
 const { data: cities } = await useFetch<City[]>("/api/cities");
 const { data: allSectors } = await useFetch<Sector[]>("/api/sectors");
 const { data: collector } = await useFetch<Collectors>(`/api/collector/${id}`);
 
-// 4. Estado reactivo del formulario
 const formData = reactive({
     city_id: 0,
     sector_id: null as number | null,
@@ -48,6 +44,7 @@ const formData = reactive({
     failed_padel: 0,
 });
 
+/*
 const coords = ref<GeolocationCoordinates | null>(null);
 let watchId: number | null = null;
 
@@ -75,7 +72,8 @@ onUnmounted(() => {
     }
 });
 
-// 5. Lógica de Filtrado Dinámico
+*/
+
 // Se ejecuta automáticamente cada vez que formData.city_id cambia
 const filteredSectors = computed(() => {
     if (!allSectors.value) return [];
@@ -99,7 +97,6 @@ const totalFailed = computed(() => {
     );
 });
 
-// 6. Función de Envío
 async function handleSubmit() {
     if (!formData.sector_id) {
         alert("Por favor, selecciona un sector antes de guardar.");
@@ -110,7 +107,6 @@ async function handleSubmit() {
 
     try {
         /*
-        // A. Obtener Geolocalización
         const position = await new Promise<GeolocationPosition>(
             (resolve, reject) => {
                 navigator.geolocation.getCurrentPosition(resolve, reject, {
@@ -126,7 +122,6 @@ async function handleSubmit() {
         */
         const now = new Date();
 
-        // B. Construir objeto final (Payload)
         const payload = {
             ...formData,
             inspector_id: user.value?.id || null,
@@ -135,11 +130,10 @@ async function handleSubmit() {
             date_inform: now,
             time_in: now,
             time_out: now,
-            lat: coords.value?.latitude || 0,
-            lng: coords.value?.longitude || 0,
+            lat: 0, // coords.value?.latitude || 0,
+            lng: 0, // coords.value?.longitude || 0,
         };
 
-        // C. Guardar en Base de Datos
         await $fetch("/api/check", {
             method: "POST",
             body: payload,

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// Cargamos los inspectores desde tu API
 const { data: inspectors, refresh } = await useFetch("/api/inspectors");
 
 function editInspector(id: number) {

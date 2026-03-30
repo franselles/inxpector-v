@@ -20,7 +20,6 @@ const formData = reactive({
     rol: 1,
 });
 
-// 1. Cargar datos del inspector al montar el componente
 onMounted(async () => {
     try {
         const data = await $fetch(`/api/inspector/${inspectorId}`);
@@ -38,7 +37,6 @@ onMounted(async () => {
     }
 });
 
-// 2. Manejar la actualización
 async function handleUpdateInspector() {
     if (!formData.name || !formData.user) {
         alert("El nombre y el usuario son obligatorios.");

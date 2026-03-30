@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// Cargamos los cobradores
 const { data: collectors, refresh } = await useFetch("/api/collectors");
 
 function editCollector(id: number) {
@@ -15,7 +14,6 @@ async function deleteCollector(id: number) {
         return;
 
     try {
-        // Usamos $fetch para la acción imperativa de borrar
         await $fetch(`/api/collectors/${id}`, {
             method: "DELETE" as any,
         });
