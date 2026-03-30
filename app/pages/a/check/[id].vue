@@ -56,13 +56,13 @@ onMounted(() => {
         (position) => {
             // Cada vez que el GPS mejore la precisión, esto se actualiza solo
             coords.value = position.coords;
-            console.log("Nueva precisión:", position.coords.accuracy, "metros");
+            //console.log("Nueva precisión:", position.coords.accuracy, "metros");
         },
         (err) => {
             console.warn("Error de ubicación:", err);
         },
         {
-            enableHighAccuracy: false,
+            enableHighAccuracy: true,
             timeout: 10000,
             maximumAge: 0,
         },

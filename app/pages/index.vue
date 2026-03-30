@@ -1,4 +1,8 @@
 <script setup lang="ts">
+interface Result {
+    roles: number;
+}
+
 const { loggedIn, user, fetch: refreshSession } = useUserSession();
 const credentials = reactive({
     user: "",
@@ -14,7 +18,7 @@ function clearCredentials() {
 
 async function login() {
     try {
-        const result = await $fetch("/api/login", {
+        const result = await $fetch<Result>("/api/login", {
             method: "POST",
             body: credentials,
         });
@@ -95,7 +99,7 @@ async function login() {
 
                 <div class="text-center mt-4">
                     <span class="text-xs opacity-40"
-                        >v0.0.15 en desarrollo</span
+                        >v0.0.16 en desarrollo</span
                     >
                 </div>
                 <div class="text-center mt-4">
