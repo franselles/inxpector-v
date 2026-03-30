@@ -64,7 +64,7 @@ onMounted(() => {
         {
             enableHighAccuracy: true,
             timeout: 10000,
-            maximumAge: 0,
+            maximumAge: 1000,
         },
     );
 });

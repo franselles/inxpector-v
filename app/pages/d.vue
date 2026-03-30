@@ -14,7 +14,7 @@ async function logout() {
         >
             <div class="flex-1">
                 <NuxtLink
-                    to="/dashboard"
+                    to="/d/dash"
                     class="text-xl font-black tracking-tighter"
                 >
                     ADMIN<span class="text-primary">PANEL</span>
@@ -26,17 +26,18 @@ async function logout() {
                     class="menu menu-horizontal bg-base-100 rounded-lg border border-base-300 p-1 gap-1"
                 >
                     <li
-                        class="border-r border-base-300 pr-1 mr-1 hidden sm:block"
+                        class="border-r border-base-300 pr-1 mr-1 flex items-center justify-center"
                     >
                         <span
-                            class="text-[10px] uppercase font-black opacity-40 select-none"
-                            >Inspectores</span
+                            class="text-[9px] sm:text-[10px] uppercase font-black opacity-40 select-none leading-none"
                         >
+                            Inspectores
+                        </span>
                     </li>
                     <li>
                         <NuxtLink
                             to="/d/inspectors/list"
-                            class="rounded-md transition-colors"
+                            class="rounded-md transition-colors px-2 sm:px-4"
                             active-class="bg-primary text-primary-content font-bold shadow-sm"
                         >
                             Lista
@@ -45,27 +46,30 @@ async function logout() {
                     <li>
                         <NuxtLink
                             to="/d/inspectors/add"
-                            class="rounded-md transition-colors"
+                            class="rounded-md transition-colors px-2 sm:px-4"
                             active-class="bg-primary text-primary-content font-bold shadow-sm"
                         >
                             + Nuevo
                         </NuxtLink>
                     </li>
 
-                    <div class="divider divider-horizontal mx-0"></div>
+                    <div
+                        class="divider divider-horizontal mx-0 hidden sm:flex"
+                    ></div>
 
                     <li
-                        class="border-r border-base-300 pr-1 mr-1 hidden sm:block"
+                        class="border-r border-base-300 pr-1 mr-1 flex items-center justify-center"
                     >
                         <span
-                            class="text-[10px] uppercase font-black opacity-40 select-none"
-                            >Cobradores</span
+                            class="text-[9px] sm:text-[10px] uppercase font-black opacity-40 select-none leading-none"
                         >
+                            Cobradores
+                        </span>
                     </li>
                     <li>
                         <NuxtLink
                             to="/d/collectors/list"
-                            class="rounded-md transition-colors"
+                            class="rounded-md transition-colors px-2 sm:px-4"
                             active-class="bg-primary text-primary-content font-bold shadow-sm"
                         >
                             Lista
@@ -74,12 +78,15 @@ async function logout() {
                     <li>
                         <NuxtLink
                             to="/d/collectors/add"
-                            class="rounded-md transition-colors"
+                            class="rounded-md transition-colors px-2 sm:px-4"
                             active-class="bg-primary text-primary-content font-bold shadow-sm"
                         >
                             + Nuevo
                         </NuxtLink>
                     </li>
+                    <div
+                        class="divider divider-horizontal mx-0 hidden sm:flex"
+                    ></div>
                 </ul>
 
                 <button
