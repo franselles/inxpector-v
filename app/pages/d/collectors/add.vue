@@ -1,4 +1,9 @@
 <script setup lang="ts">
+definePageMeta({
+    middleware: "auth",
+    roles: 2,
+});
+
 const router = useRouter();
 const isLoading = ref(false);
 

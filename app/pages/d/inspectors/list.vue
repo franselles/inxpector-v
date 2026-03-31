@@ -1,4 +1,9 @@
 <script setup lang="ts">
+definePageMeta({
+    middleware: "auth",
+    roles: 2,
+});
+
 const { data: inspectors, refresh } = await useFetch("/api/inspectors");
 
 function editInspector(id: number) {

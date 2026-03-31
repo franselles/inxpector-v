@@ -1,4 +1,9 @@
 <script setup lang="ts">
+definePageMeta({
+    middleware: "auth",
+    roles: 2,
+});
+
 const route = useRoute();
 const router = useRouter();
 const id = route.params.id;

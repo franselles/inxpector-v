@@ -1,4 +1,9 @@
 <script setup lang="ts">
+definePageMeta({
+    middleware: "auth",
+    roles: 1,
+});
+
 const { user } = useUserSession();
 const route = useRoute();
 const id = route.params.id; // ID del cobrador desde la URL

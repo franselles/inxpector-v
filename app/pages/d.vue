@@ -1,4 +1,9 @@
 <script setup lang="ts">
+definePageMeta({
+    middleware: "auth",
+    roles: 2,
+});
+
 const { clear: clearSession } = useUserSession();
 
 async function logout() {
@@ -13,10 +18,7 @@ async function logout() {
             class="navbar bg-base-200 border-b border-base-300 px-4 flex-col lg:flex-row gap-4"
         >
             <div class="flex-1">
-                <NuxtLink
-                    to="/d/dash"
-                    class="text-xl font-black tracking-tighter"
-                >
+                <NuxtLink to="/d" class="text-xl font-black tracking-tighter">
                     ADMIN<span class="text-primary">PANEL</span>
                 </NuxtLink>
             </div>
@@ -87,6 +89,24 @@ async function logout() {
                     <div
                         class="divider divider-horizontal mx-0 hidden sm:flex"
                     ></div>
+                    <li
+                        class="border-r border-base-300 pr-1 mr-1 flex items-center justify-center"
+                    >
+                        <span
+                            class="text-[9px] sm:text-[10px] uppercase font-black opacity-40 select-none leading-none"
+                        >
+                            Informes
+                        </span>
+                    </li>
+                    <li>
+                        <NuxtLink
+                            to="/d/dash/informs"
+                            class="rounded-md transition-colors px-2 sm:px-4"
+                            active-class="bg-primary text-primary-content font-bold shadow-sm"
+                        >
+                            Listados
+                        </NuxtLink>
+                    </li>
                 </ul>
 
                 <button
