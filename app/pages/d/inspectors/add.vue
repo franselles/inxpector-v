@@ -35,7 +35,7 @@ async function handleCreateInspector() {
 
         alert("Inspector creado correctamente.");
 
-        navigateTo("/d");
+        navigateTo("/d/inspectors/list");
     } catch (error) {
         console.error("Error al crear:", error);
         alert(

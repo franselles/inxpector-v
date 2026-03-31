@@ -25,7 +25,7 @@ async function handleCreateCollector() {
         });
 
         alert("Cobrador registrado con éxito.");
-        navigateTo("/d");
+        navigateTo("/d/collectors/list");
     } catch (error) {
         console.error("Error:", error);
         alert("Hubo un error al crear el cobrador.");

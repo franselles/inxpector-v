@@ -44,7 +44,6 @@ const formData = reactive({
     failed_padel: 0,
 });
 
-/*
 const coords = ref<GeolocationCoordinates | null>(null);
 let watchId: number | null = null;
 
@@ -71,8 +70,6 @@ onUnmounted(() => {
         navigator.geolocation.clearWatch(watchId);
     }
 });
-
-*/
 
 // Se ejecuta automáticamente cada vez que formData.city_id cambia
 const filteredSectors = computed(() => {
@@ -130,8 +127,8 @@ async function handleSubmit() {
             date_inform: now,
             time_in: now,
             time_out: now,
-            lat: 0, // coords.value?.latitude || 0,
-            lng: 0, // coords.value?.longitude || 0,
+            lat: coords.value?.latitude || 0,
+            lng: coords.value?.longitude || 0,
         };
 
         await $fetch("/api/check", {
