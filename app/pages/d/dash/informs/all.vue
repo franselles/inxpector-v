@@ -4,9 +4,37 @@ definePageMeta({
     roles: 2,
 });
 
-const { data: reports, refresh, pending } = await useFetch("/api/allinforms");
+// Parámetros de paginación
+const limit = 50;
+const skip = ref(0);
 
-// Ajustamos los tipos para aceptar string, null o undefined
+// Fetch reactivo: Se vuelve a ejecutar automáticamente cuando 'skip' cambia
+const { data, refresh, pending } = await useFetch("/api/allinforms", {
+    query: {
+        skip: skip,
+        take: limit,
+    },
+    watch: [skip],
+});
+
+// Alias para simplificar el acceso a los datos
+const reports = computed(() => data.value?.data || []);
+const totalRecords = computed(() => data.value?.total || 0);
+
+// Lógica de navegación
+const nextPage = () => {
+    if (skip.value + limit < totalRecords.value) {
+        skip.value += limit;
+    }
+};
+
+const prevPage = () => {
+    if (skip.value > 0) {
+        skip.value -= limit;
+    }
+};
+
+// Formateadores
 const formatDate = (dateStr: string | null | undefined) => {
     if (!dateStr) return "---";
     return new Date(dateStr).toLocaleDateString("es-ES", {
@@ -24,7 +52,6 @@ const formatTime = (timeStr: string | null | undefined) => {
     });
 };
 
-// Tipado seguro para las coordenadas del GPS
 const openMap = (
     lat: string | null | undefined,
     lng: string | null | undefined,
@@ -208,6 +235,41 @@ const openMap = (
                         </template>
                     </tbody>
                 </table>
+            </div>
+
+            <div
+                class="flex items-center justify-between px-4 py-3 bg-base-200/50 border-t border-base-300"
+            >
+                <div
+                    class="text-[10px] md:text-xs font-bold opacity-60 uppercase"
+                >
+                    Mostrando {{ skip + 1 }}-{{
+                        Math.min(skip + limit, totalRecords)
+                    }}
+                    de {{ totalRecords }}
+                </div>
+
+                <div class="join">
+                    <button
+                        @click="prevPage"
+                        class="join-item btn btn-xs md:btn-sm btn-outline"
+                        :disabled="skip === 0 || pending"
+                    >
+                        «
+                    </button>
+                    <button
+                        class="join-item btn btn-xs md:btn-sm btn-outline no-animation pointer-events-none"
+                    >
+                        Pág. {{ Math.floor(skip / limit) + 1 }}
+                    </button>
+                    <button
+                        @click="nextPage"
+                        class="join-item btn btn-xs md:btn-sm btn-outline"
+                        :disabled="skip + limit >= totalRecords || pending"
+                    >
+                        »
+                    </button>
+                </div>
             </div>
 
             <div
