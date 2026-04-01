@@ -6,7 +6,9 @@ definePageMeta({
 
 const { data: reports, refresh, pending } = await useFetch("/api/allinforms");
 
-const formatDate = (dateStr: string) => {
+// Ajustamos los tipos para aceptar string, null o undefined
+const formatDate = (dateStr: string | null | undefined) => {
+    if (!dateStr) return "---";
     return new Date(dateStr).toLocaleDateString("es-ES", {
         day: "2-digit",
         month: "2-digit",
@@ -14,26 +16,22 @@ const formatDate = (dateStr: string) => {
     });
 };
 
-const formatTime = (timeStr: string) => {
+const formatTime = (timeStr: string | null | undefined) => {
+    if (!timeStr) return "--:--";
     return new Date(timeStr).toLocaleTimeString("es-ES", {
         hour: "2-digit",
         minute: "2-digit",
     });
 };
 
-// Función para abrir Google Maps
-const openMap = (lat: string, lng: string) => {
-    const url = `https://www.google.com/maps?q=${lat},${lng}`;
+// Tipado seguro para las coordenadas del GPS
+const openMap = (
+    lat: string | null | undefined,
+    lng: string | null | undefined,
+) => {
+    if (!lat || !lng) return;
+    const url = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
     window.open(url, "_blank");
-};
-
-// Función para eliminar (aquí llamarías a tu API de delete)
-const deleteReport = async (id: number) => {
-    if (confirm("¿Estás seguro de eliminar este informe?")) {
-        // await $fetch(`/api/reports/${id}`, { method: 'DELETE' })
-        // refresh()
-        console.log("Eliminando reporte:", id);
-    }
 };
 </script>
 
@@ -82,7 +80,6 @@ const deleteReport = async (id: number) => {
                             <th>Personal</th>
                             <th class="text-center">Hamc/Somb</th>
                             <th class="text-center">Patines</th>
-                            <th class="text-right">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -90,13 +87,11 @@ const deleteReport = async (id: number) => {
                             <tr class="hover:bg-base-200/50 border-b-0">
                                 <td>
                                     <div class="font-bold text-xs md:text-sm">
-                                        {{
-                                            formatDate(report.date_inform || "")
-                                        }}
+                                        {{ formatDate(report.date_inform) }}
                                     </div>
                                     <div class="text-[10px] opacity-60">
-                                        {{ formatTime(report.time_in || "") }} -
-                                        {{ formatTime(report.time_out || "") }}
+                                        {{ formatTime(report.time_in) }} -
+                                        {{ formatTime(report.time_out) }}
                                     </div>
                                 </td>
 
@@ -129,10 +124,10 @@ const deleteReport = async (id: number) => {
 
                                 <td class="text-xs">
                                     <div class="opacity-60 italic text-[10px]">
-                                        I: {{ report.inspectors?.name }}
+                                        {{ report.inspectors?.name }}
                                     </div>
                                     <div class="font-bold text-base-content/80">
-                                        C: {{ report.collectors?.name }}
+                                        {{ report.collectors?.name }}
                                     </div>
                                 </td>
 
@@ -140,23 +135,24 @@ const deleteReport = async (id: number) => {
                                     <div class="flex gap-1 justify-center">
                                         <div
                                             :class="
-                                                report.failed_beds || 0 > 0
+                                                (report.failed_beds ?? 0) > 0
                                                     ? 'badge-error'
                                                     : 'badge-ghost'
                                             "
                                             class="badge badge-xs font-bold px-2"
                                         >
-                                            {{ report.failed_beds }} H
+                                            {{ report.failed_beds ?? 0 }} H
                                         </div>
                                         <div
                                             :class="
-                                                report.failed_umbrellas || 0 > 0
+                                                (report.failed_umbrellas ?? 0) >
+                                                0
                                                     ? 'badge-error'
                                                     : 'badge-ghost'
                                             "
                                             class="badge badge-xs font-bold px-2"
                                         >
-                                            {{ report.failed_umbrellas }} S
+                                            {{ report.failed_umbrellas ?? 0 }} S
                                         </div>
                                     </div>
                                 </td>
@@ -166,72 +162,47 @@ const deleteReport = async (id: number) => {
                                         class="flex flex-wrap gap-1 justify-center max-w-25 mx-auto"
                                     >
                                         <div
-                                            v-if="report.failed_boats || 0 > 0"
+                                            v-if="
+                                                (report.failed_boats ?? 0) > 0
+                                            "
                                             class="badge badge-xs badge-warning font-black text-[9px]"
                                         >
                                             {{ report.failed_boats }} P
                                         </div>
                                         <div
-                                            v-if="report.failed_padel || 0 > 0"
+                                            v-if="
+                                                (report.failed_padel ?? 0) > 0
+                                            "
                                             class="badge badge-xs badge-secondary font-black text-[9px]"
                                         >
                                             {{ report.failed_padel }} D
                                         </div>
                                         <span
                                             v-if="
-                                                report.failed_boats === 0 &&
-                                                report.failed_padel === 0
+                                                (report.failed_boats ?? 0) ===
+                                                    0 &&
+                                                (report.failed_padel ?? 0) === 0
                                             "
                                             class="text-xs opacity-20"
                                             >-</span
                                         >
                                     </div>
                                 </td>
-
-                                <td class="text-right">
-                                    <button
-                                        @click="deleteReport(report.id)"
-                                        class="btn btn-ghost btn-xs text-error btn-square"
-                                        disabled
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            class="size-4"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                            />
-                                        </svg>
-                                    </button>
-                                </td>
                             </tr>
 
                             <tr
-                                v-if="
-                                    report.comments &&
-                                    report.comments.trim() !== ''
-                                "
+                                v-if="report.comments?.trim()"
                                 class="bg-base-200/30"
                             >
-                                <td colspan="6" class="py-2 px-4">
-                                    <div class="flex items-start gap-2">
-                                        <div
-                                            class="badge text-[10px] font-bold uppercase mt-0.5"
-                                        >
-                                            Incidencia:
-                                        </div>
-                                        <p
-                                            class="text-xs italic opacity-80 leading-relaxed"
-                                        >
-                                            "{{ report.comments }}"
-                                        </p>
-                                    </div>
+                                <td
+                                    colspan="5"
+                                    class="py-2 px-4 italic opacity-80 text-xs"
+                                >
+                                    <span
+                                        class="font-bold uppercase text-[10px] mr-2"
+                                        >Incidencia:</span
+                                    >
+                                    "{{ report.comments }}"
                                 </td>
                             </tr>
                         </template>
