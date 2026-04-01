@@ -53,6 +53,11 @@ const coords = ref<GeolocationCoordinates | null>(null);
 let watchId: number | null = null;
 
 onMounted(() => {
+    const now = new Date();
+    Object.assign(formData, {
+        time_in: now,
+    });
+
     watchId = navigator.geolocation.watchPosition(
         (position) => {
             // Cada vez que el GPS mejore la precisión, esto se actualiza solo
@@ -130,7 +135,6 @@ async function handleSubmit() {
             collector_id: Number(id) || null,
             // Metadatos automáticos
             date_inform: now,
-            time_in: now,
             time_out: now,
             lat: coords.value?.latitude || 0,
             lng: coords.value?.longitude || 0,

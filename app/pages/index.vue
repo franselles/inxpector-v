@@ -99,7 +99,7 @@ async function login() {
 
                 <div class="text-center mt-4">
                     <span class="text-xs opacity-40"
-                        >v0.0.19 en desarrollo</span
+                        >v0.0.20 en desarrollo</span
                     >
                 </div>
                 <div class="text-center mt-4">
