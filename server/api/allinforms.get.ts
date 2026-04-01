@@ -4,7 +4,7 @@ export default eventHandler(async () => {
   try {
     const informs = await prisma.informs.findMany({
       orderBy: [
-        { date_inform: "asc" },
+        { date_inform: "desc" },
         { collector_id: "asc" },
         { time_in: "asc" },
       ],
