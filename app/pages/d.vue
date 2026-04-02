@@ -86,9 +86,11 @@ async function logout() {
                             + Nuevo
                         </NuxtLink>
                     </li>
+
                     <div
                         class="divider divider-horizontal mx-0 hidden sm:flex"
                     ></div>
+
                     <li
                         class="border-r border-base-300 pr-1 mr-1 flex items-center justify-center"
                     >
@@ -107,6 +109,10 @@ async function logout() {
                             Listados
                         </NuxtLink>
                     </li>
+
+                    <div
+                        class="divider divider-horizontal mx-0 hidden sm:flex"
+                    ></div>
                 </ul>
 
                 <button

@@ -18,7 +18,7 @@ export default eventHandler(async (event) => {
         orderBy: [
           { date_inform: "desc" },
           { collector_id: "asc" },
-          { time_in: "asc" },
+          { time_in: "desc" },
         ],
         include: {
           collectors: true,
