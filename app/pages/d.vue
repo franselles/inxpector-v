@@ -19,7 +19,8 @@ async function logout() {
         >
             <div class="flex-1">
                 <NuxtLink to="/d" class="text-xl font-black tracking-tighter">
-                    ADMIN<span class="text-primary">PANEL</span>
+                    PANEL<span class="text-primary">ADMINISTRADOR</span> R.A.
+                    BENIDORM
                 </NuxtLink>
             </div>
 
@@ -102,7 +103,7 @@ async function logout() {
                     </li>
                     <li>
                         <NuxtLink
-                            to="/d/dash/informs"
+                            to="/d/dash/informs/all"
                             class="rounded-md transition-colors px-2 sm:px-4"
                             active-class="bg-primary text-primary-content font-bold shadow-sm"
                         >
