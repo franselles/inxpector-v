@@ -19,7 +19,7 @@ async function deleteCollector(id: number) {
         return;
 
     try {
-        await $fetch(`/api/collectors/${id}`, {
+        await $fetch(`/api/collector/${id}`, {
             method: "DELETE" as any,
         });
 

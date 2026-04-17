@@ -18,7 +18,7 @@ async function deleteInspector(id: number) {
     ) {
         try {
             // Usamos $fetch para la acción de borrado
-            await $fetch(`/api/inspectors/${id}`, { method: "DELETE" as any });
+            await $fetch(`/api/inspector/${id}`, { method: "DELETE" as any });
 
             // Refrescamos la lista reactiva
             await refresh();
