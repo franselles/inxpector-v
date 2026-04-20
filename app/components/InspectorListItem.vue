@@ -43,12 +43,24 @@ const initial = computed(
                 </span>
 
                 <span
-                    :class="
-                        inspector.rol === 2 ? 'badge-secondary' : 'badge-ghost'
-                    "
-                    class="badge badge-xs font-bold text-[9px] uppercase tracking-tighter"
+                    v-if="inspector.rol === 1"
+                    class="badge-ghost badge badge-xs font-bold text-[9px] uppercase tracking-tighter"
                 >
-                    {{ inspector.rol === 2 ? "Admin" : "Inspector" }}
+                    Inspector
+                </span>
+
+                <span
+                    v-if="inspector.rol === 2"
+                    class="badge-secondary badge badge-xs font-bold text-[9px] uppercase tracking-tighter"
+                >
+                    Admin
+                </span>
+
+                <span
+                    v-if="inspector.rol === 3"
+                    class="badge-success badge badge-xs font-bold text-[9px] uppercase tracking-tighter"
+                >
+                    Superadmin
                 </span>
             </div>
         </div>

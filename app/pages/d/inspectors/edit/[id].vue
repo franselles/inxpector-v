@@ -182,6 +182,7 @@ async function handleUpdateInspector() {
                         >
                             <option :value="1">Inspector Estándar</option>
                             <option :value="2">Administrador</option>
+                            <option :value="3">Superadmin</option>
                         </select>
                     </div>
 
