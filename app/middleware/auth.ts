@@ -1,31 +1,36 @@
-// app/middleware/auth.ts
 export default defineNuxtRouteMiddleware((to, from) => {
   const { loggedIn, user } = useUserSession();
 
-  // 1. Si no está logeado, mandarlo al inicio (evitando bucle si ya está en /)
+  // 1. Si no está logeado, mandarlo al inicio
   if (!loggedIn.value) {
     if (to.path !== "/") return navigateTo("/");
-    return; // Si ya está en /, no hacemos nada y dejamos que cargue
+    return;
   }
 
-  // 2. Obtener el rol que REQUIERE la página actual
-  const pageRequiredRole = to.meta.roles;
-
-  // 3. Lógica de redirección inicial (Cuando entran al sitio logeados)
-  // Solo redirigimos si el usuario intenta entrar a la raíz "/"
+  // 2. Lógica de redirección inicial (Landing según Rol)
   if (to.path === "/") {
-    if (user.value?.roles === 1) return navigateTo("/a/collectors");
-    if (user.value?.roles === 2) return navigateTo("/d/dash");
+    const userRole = user.value?.roles;
+    if (userRole === 1) return navigateTo("/a/collectors");
+    // Roles 2 y 3 van al mismo dashboard administrativo
+    if (userRole === 2 || userRole === 3) return navigateTo("/d/dash");
   }
 
-  // 4. Lógica de PROTECCIÓN de rol (Para que un rol 1 no entre a páginas de rol 2)
-  // Comprobamos si la página pide un rol y si el usuario lo tiene.
-  // IMPORTANTE: Aquí NO usamos navigateTo a una página con middleware,
-  // simplemente abortamos o dejamos pasar.
-  if (pageRequiredRole && user.value?.roles !== pageRequiredRole) {
-    return abortNavigation({
-      statusCode: 403,
-      message: "No tienes permiso para ver esta página",
-    });
+  // 3. Lógica de PROTECCIÓN de rutas
+  const requiredRoles = to.meta.roles;
+
+  if (requiredRoles !== undefined) {
+    // Normalizamos: si es un número lo metemos en un array, si ya es array lo dejamos igual
+    const allowedRoles = Array.isArray(requiredRoles)
+      ? requiredRoles
+      : [requiredRoles];
+    const userRole = user.value?.roles ?? 0;
+
+    // Verificamos si el rol del usuario está incluido en los permitidos de la página
+    if (!allowedRoles.includes(userRole)) {
+      return abortNavigation({
+        statusCode: 403,
+        message: "No tienes permiso para ver esta página",
+      });
+    }
   }
 });

@@ -2,7 +2,7 @@
 // Metadatos de página
 definePageMeta({
     middleware: "auth",
-    roles: 2, // Solo administradores
+    roles: 3, // Solo administradores
 });
 
 const route = useRoute();

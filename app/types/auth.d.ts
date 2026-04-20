@@ -10,7 +10,7 @@ declare module "#auth-utils" {
 declare module "#app" {
   interface PageMeta {
     // Aquí defines que 'roles' puede ser un número, un string o lo que necesites
-    roles?: number | string | string[];
+    roles?: number | number[] | string | string[];
   }
 }
 

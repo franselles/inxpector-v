@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
     middleware: "auth",
-    roles: 2,
+    roles: [2, 3],
 });
 
 // Parámetros de paginación

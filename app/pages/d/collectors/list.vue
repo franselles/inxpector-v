@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
     middleware: "auth",
-    roles: 2,
+    roles: 3,
 });
 
 const { data: collectors, refresh } = await useFetch("/api/collectors");

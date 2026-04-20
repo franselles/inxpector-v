@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
     middleware: "auth",
-    roles: 2,
+    roles: 3,
 });
 
 const { data: inspectors, refresh } = await useFetch("/api/inspectors");
