@@ -27,7 +27,9 @@ async function login() {
         await refreshSession();
         if (result.roles == 1) {
             await navigateTo("/a/collectors");
-        } else if (result.roles > 1) {
+        } else if (result.roles == 2) {
+            await navigateTo("/d/dash/informs/all");
+        } else if (result.roles == 3) {
             await navigateTo("/d");
         }
     } catch {
@@ -99,7 +101,7 @@ async function login() {
 
                 <div class="text-center mt-4">
                     <span class="text-xs opacity-40"
-                        >v0.0.29 en desarrollo</span
+                        >v0.0.30 en desarrollo</span
                     >
                 </div>
                 <div class="text-center mt-4">

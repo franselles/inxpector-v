@@ -4,7 +4,7 @@ definePageMeta({
     roles: [2, 3],
 });
 
-const { clear: clearSession } = useUserSession();
+const { clear: clearSession, user } = useUserSession();
 
 async function logout() {
     await clearSession();
@@ -29,6 +29,7 @@ async function logout() {
                     class="menu menu-horizontal bg-base-100 rounded-lg border border-base-300 p-1 gap-1"
                 >
                     <li
+                        v-if="user?.roles === 3"
                         class="border-r border-base-300 pr-1 mr-1 flex items-center justify-center"
                     >
                         <span
@@ -37,7 +38,7 @@ async function logout() {
                             Inspectores
                         </span>
                     </li>
-                    <li>
+                    <li v-if="user?.roles === 3">
                         <NuxtLink
                             to="/d/inspectors/list"
                             class="rounded-md transition-colors px-2 sm:px-4"
@@ -46,7 +47,7 @@ async function logout() {
                             Lista
                         </NuxtLink>
                     </li>
-                    <li>
+                    <li v-if="user?.roles === 3">
                         <NuxtLink
                             to="/d/inspectors/add"
                             class="rounded-md transition-colors px-2 sm:px-4"
@@ -61,6 +62,7 @@ async function logout() {
                     ></div>
 
                     <li
+                        v-if="user?.roles === 3"
                         class="border-r border-base-300 pr-1 mr-1 flex items-center justify-center"
                     >
                         <span
@@ -69,7 +71,7 @@ async function logout() {
                             Cobradores
                         </span>
                     </li>
-                    <li>
+                    <li v-if="user?.roles === 3">
                         <NuxtLink
                             to="/d/collectors/list"
                             class="rounded-md transition-colors px-2 sm:px-4"
@@ -78,7 +80,7 @@ async function logout() {
                             Lista
                         </NuxtLink>
                     </li>
-                    <li>
+                    <li v-if="user?.roles === 3">
                         <NuxtLink
                             to="/d/collectors/add"
                             class="rounded-md transition-colors px-2 sm:px-4"
