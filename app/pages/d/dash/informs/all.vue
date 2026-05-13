@@ -132,6 +132,7 @@ const openMap = (
                                         {{ report.sectors?.name }}
                                     </div>
                                     <button
+                                        v-if="Number(report.lat) > 0"
                                         @click="openMap(report.lat, report.lng)"
                                         class="btn btn-xs btn-outline btn-info gap-1 normal-case font-medium"
                                     >
